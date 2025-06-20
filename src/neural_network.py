@@ -35,7 +35,7 @@ class BasicNeuralNetwork():
         f,c = layer_dim
         return (np.random.rand(f,c) * 0.1, np.random.rand(f,1) * 0.0000099)
     
-    def forward_propagation(self):
+    def forward_propagation(self, verbose = False):
         """
             Computes the forward propagation from the input layer to the output layer
         """
@@ -43,20 +43,21 @@ class BasicNeuralNetwork():
         X_Transpose = np.transpose(self.X)
         W1,b1 = self.initialize_params(self.layers.pop(0)) 
         a = activations.sigmoid(np.dot(W1,X_Transpose)+ b1)
-        print(f"Activation of the input layer\n {a}")
+        if verbose: 
+            print(f"Activation of the input layer\n {a}")
         i = 1
         for layer in self.layers:
-            print(f"Layer dim: {layer}")
             w,b = self.initialize_params(layer)
-            print(f"Weightis: {w}")
-            print(f"Bias: {b}")
-            print(f"dot product: {np.dot(w,a) + b}")
             a = activations.sigmoid(np.dot(w,a) + b)
-            print(f"Activation of the hidden layer {i} \n {a}")
+            
             i += 1
 
         y_hat = [1 if e > 0.5 else 0 for e in a[0]]
-        print(f"Output y_hat: \n{y_hat}")
+        if verbose:
+            print(f"Layer dim: {layer}")
+            print(f"Weights: {w}")
+            print(f"Activation of the hidden layer {i - 1} \n {a}")
+            print(f"Output y_hat: \n{y_hat}")
             
             
     
